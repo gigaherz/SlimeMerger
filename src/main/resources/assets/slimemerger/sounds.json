@@ -1,0 +1,8 @@
+{
+  "mob.slime.merge": {
+    "subtitle": "sound.slimemerger.slime.merge",
+    "sounds": [
+      "slimemerger:mob/slime/shlop"
+    ]
+  }
+}
