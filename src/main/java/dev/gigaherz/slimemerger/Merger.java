@@ -9,9 +9,9 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Slime;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 
 import java.util.*;
 
@@ -58,7 +58,7 @@ public class Merger
 
         private List<Slime> findOtherSlimes()
         {
-            return slime.level
+            return slime.level()
                     .getEntities(EntityType.SLIME,
                             slime.getBoundingBox().inflate(slime.getSize() * 1.5, slime.getSize(), slime.getSize() * 1.5),
                             (other) -> isValidTarget(slime, other));
@@ -94,7 +94,7 @@ public class Merger
                 {
                     float angle = rand.nextFloat();
                     float speed = size * (1 + rand.nextFloat() * 0.5f);
-                    slime.level.addParticle(ParticleTypes.ITEM_SLIME, slime.getX(), slime.getY(), slime.getZ(),
+                    slime.level().addParticle(ParticleTypes.ITEM_SLIME, slime.getX(), slime.getY(), slime.getZ(),
                             speed * Math.cos(angle), 1, speed * Math.sin(angle));
                 }
 
@@ -109,7 +109,7 @@ public class Merger
                     {
                         float angle = rand.nextFloat();
                         float speed = size * (1 + rand.nextFloat() * 0.5f);
-                        slime.level.addParticle(ParticleTypes.ITEM_SLIME, target.getX(), target.getY(), target.getZ(),
+                        slime.level().addParticle(ParticleTypes.ITEM_SLIME, target.getX(), target.getY(), target.getZ(),
                                 speed * Math.cos(angle), 1, speed * Math.sin(angle));
                     }
                 }

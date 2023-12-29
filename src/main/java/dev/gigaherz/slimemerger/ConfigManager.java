@@ -2,11 +2,11 @@ package dev.gigaherz.slimemerger;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.entity.monster.Slime;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 
@@ -15,22 +15,22 @@ public class ConfigManager
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static final ServerConfig SERVER;
-    public static final ForgeConfigSpec SERVER_SPEC;
+    public static final ModConfigSpec SERVER_SPEC;
 
     static
     {
-        final Pair<ServerConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
+        final Pair<ServerConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ServerConfig::new);
         SERVER_SPEC = specPair.getRight();
         SERVER = specPair.getLeft();
     }
 
     public static class ServerConfig
     {
-        public final ForgeConfigSpec.BooleanValue mergeSlimes;
-        public final ForgeConfigSpec.IntValue maxSize;
-        public final ForgeConfigSpec.IntValue minAge;
+        public final ModConfigSpec.BooleanValue mergeSlimes;
+        public final ModConfigSpec.IntValue maxSize;
+        public final ModConfigSpec.IntValue minAge;
 
-        ServerConfig(ForgeConfigSpec.Builder builder)
+        ServerConfig(ModConfigSpec.Builder builder)
         {
             builder.comment("Settings for slime merging").push("slimes");
             mergeSlimes = builder
@@ -54,7 +54,18 @@ public class ConfigManager
     public static class Events
     {
         @SubscribeEvent
-        public static void modConfig(ModConfigEvent event)
+        public static void modConfig(ModConfigEvent.Loading event)
+        {
+            processConfig(event);
+        }
+
+        @SubscribeEvent
+        public static void modConfig(ModConfigEvent.Reloading event)
+        {
+            processConfig(event);
+        }
+
+        private static void processConfig(ModConfigEvent event)
         {
             ModConfig config = event.getConfig();
             if (config.getSpec() != SERVER_SPEC)
