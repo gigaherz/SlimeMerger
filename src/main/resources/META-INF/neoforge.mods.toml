@@ -13,12 +13,12 @@ Allows slimes to get together and make a bigger slime... occasionally.
 [[dependencies.slimemerger]] #optional
     modId="neoforge" #mandatory
     type="required"
-    versionRange="[20.4.16-beta,)" #mandatory
+    versionRange="[21.0.42-beta,)" #mandatory
     ordering="NONE"
     side="BOTH"
 [[dependencies.slimemerger]]
     modId="minecraft"
 type="required"
-    versionRange="[1.20.2,1.21)"
+    versionRange="[1.21,1.22)"
     ordering="NONE"
     side="BOTH"

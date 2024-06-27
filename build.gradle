@@ -4,7 +4,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.76'
+    id 'net.neoforged.gradle.userdev' version '7.0.146'
 }
 
 version = '1.0'
@@ -18,7 +18,7 @@ base {
     archivesName = minecraftVersion { "SlimeMerger-${it}" }
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 runs {
     // applies to all the run configs below
@@ -44,13 +44,13 @@ runs {
 
 subsystems {
     parchment {
-        minecraftVersion="1.20.3"
-        mappingsVersion="2023.12.31"
+        minecraftVersion="1.21"
+        mappingsVersion="2024.06.23"
     }
 }
 
 dependencies {
-    implementation 'net.neoforged:neoforge:20.4.72-beta'
+    implementation 'net.neoforged:neoforge:21.0.42-beta'
 }
 
 jar {

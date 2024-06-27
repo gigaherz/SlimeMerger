@@ -10,12 +10,14 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Slime;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
 
-@Mod.EventBusSubscriber(modid=SlimeMerger.MODID)
+@EventBusSubscriber(modid = SlimeMerger.MODID)
 public class Merger
 {
     private static final RandomSource rand = RandomSource.create();

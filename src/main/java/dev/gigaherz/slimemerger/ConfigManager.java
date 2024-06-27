@@ -3,7 +3,7 @@ package dev.gigaherz.slimemerger;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.entity.monster.Slime;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -50,7 +50,7 @@ public class ConfigManager
     public static int minAge;
     public static int maxSize;
 
-    @Mod.EventBusSubscriber(modid = SlimeMerger.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = SlimeMerger.MODID, bus = EventBusSubscriber.Bus.MOD)
     public static class Events
     {
         @SubscribeEvent
