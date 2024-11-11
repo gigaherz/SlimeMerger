@@ -175,7 +175,7 @@ public class Merger
             this.targetConditions = TargetingConditions.forNonCombat()
                     .ignoreLineOfSight()
                     .range(this.getFollowDistance())
-                    .selector(other -> isValidTarget(slime, other));
+                    .selector((other, level) -> isValidTarget(slime, other));
         }
 
         @Override
