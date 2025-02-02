@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.42-beta'
+    id 'net.neoforged.moddev' version '2.0.63-beta'
 }
 
 version = '1.0.5'
@@ -19,7 +19,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.withSourcesJar()
 
 neoForge {
-    version = "21.3.19-beta"
+    version = "21.4.47-beta"
 
     runs {
         // applies to all the run configs below
@@ -44,8 +44,8 @@ neoForge {
     }
 
     parchment {
-        minecraftVersion = "1.21"
-        mappingsVersion = "2024.07.07"
+        minecraftVersion = "1.21.4"
+        mappingsVersion = "2024.12.29"
     }
 }
 
