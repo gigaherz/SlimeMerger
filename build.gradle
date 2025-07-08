@@ -3,23 +3,19 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.63-beta'
+    id 'net.neoforged.moddev' version '2.0.95'
 }
 
+neoForge.version = "21.7.11-beta"
 version = '1.0.5'
 group = 'dev.gigaherz.slimemerger'
-
-var minecraftVersionResolver = project.neoForge.version.map { "1." + (it =~ /^(\d+(?:\.[1-9]\d*|))\./)[0][1] }
-base {
-    archivesName = minecraftVersionResolver.map { "SlimeMerger-${it}" }
-}
+base.archivesName = "SlimeMerger-${neoForge.minecraftVersion}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 java.withSourcesJar()
 
 neoForge {
-    version = "21.4.47-beta"
 
     runs {
         // applies to all the run configs below
@@ -44,8 +40,8 @@ neoForge {
     }
 
     parchment {
-        minecraftVersion = "1.21.4"
-        mappingsVersion = "2024.12.29"
+        minecraftVersion="1.21.5"
+        mappingsVersion="2025.06.01"
     }
 }
 

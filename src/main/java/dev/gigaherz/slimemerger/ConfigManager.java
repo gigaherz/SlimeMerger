@@ -50,7 +50,7 @@ public class ConfigManager
     public static int minAge;
     public static int maxSize;
 
-    @EventBusSubscriber(modid = SlimeMerger.MODID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = SlimeMerger.MODID)
     public static class Events
     {
         @SubscribeEvent

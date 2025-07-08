@@ -6,6 +6,7 @@ license="BSD (3 clause)"
 modId="slimemerger" #mandatory
 version="${file.jarVersion}" #mandatory
 displayName="Slime Merger" #mandatory
+authors="gigaherz"
 description='''
 Allows slimes to get together and make a bigger slime... occasionally.
 '''
