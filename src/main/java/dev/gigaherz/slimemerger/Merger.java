@@ -1,17 +1,20 @@
 package dev.gigaherz.slimemerger;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -146,10 +149,10 @@ public class Merger
             this.entity = entityIn;
         }
 
-        public int compare(Entity p_compare_1_, Entity p_compare_2_)
+        public int compare(Entity first, Entity second)
         {
-            double d0 = this.entity.distanceToSqr(p_compare_1_);
-            double d1 = this.entity.distanceToSqr(p_compare_2_);
+            double d0 = this.entity.distanceToSqr(first);
+            double d1 = this.entity.distanceToSqr(second);
 
             if (d0 < d1)
             {
@@ -162,20 +165,24 @@ public class Merger
         }
     }
 
-    public static class MoveTowardNearestSlimeGoal extends NearestAttackableTargetGoal<Slime>
+    public static class MoveTowardNearestSlimeGoal extends TargetGoal
     {
         private static final int EXECUTE_CHANCE = 20;
-
+        private final int randomInterval;
+        private final TargetingConditions targetConditions;
         private final Slime slime;
+        private @Nullable LivingEntity target;
 
         public MoveTowardNearestSlimeGoal(final Slime slime)
         {
-            super(slime, Slime.class, EXECUTE_CHANCE, true, true, null);
+            super(slime, true, true);
+            this.randomInterval = reducedTickDelay(EXECUTE_CHANCE);
+            this.setFlags(EnumSet.of(Flag.TARGET));
             this.slime = slime;
             this.targetConditions = TargetingConditions.forNonCombat()
                     .ignoreLineOfSight()
                     .range(this.getFollowDistance())
-                    .selector((other, level) -> isValidTarget(slime, other));
+                    .selector((other, _) -> isValidTarget(slime, other));
         }
 
         @Override
@@ -187,7 +194,10 @@ public class Merger
                 return false;
             if (rand.nextFloat() > 0.05f)
                 return false;
-            return super.canUse();
+            if (this.randomInterval > 0 && this.mob.getRandom().nextInt(this.randomInterval) != 0)
+                return false;
+            this.findTarget();
+            return this.target != null;
         }
 
         @Override
@@ -196,6 +206,30 @@ public class Merger
             if (rand.nextFloat() < 0.01f)
                 return false;
             return super.canContinueToUse();
+        }
+
+        protected AABB getTargetSearchArea(double followDistance) {
+            return this.mob.getBoundingBox().inflate(followDistance, followDistance, followDistance);
+        }
+
+        protected void findTarget() {
+            ServerLevel level = getServerLevel(this.mob);
+            this.target = level.getNearestEntity(
+                    level.getEntitiesOfClass(Slime.class, this.getTargetSearchArea(this.getFollowDistance()), (_) -> true),
+                    this.getTargetConditions(), this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+        }
+
+        public void start() {
+            this.mob.setTarget(this.target);
+            super.start();
+        }
+
+        public void setTarget(@Nullable LivingEntity target) {
+            this.target = target;
+        }
+
+        private TargetingConditions getTargetConditions() {
+            return this.targetConditions.range(this.getFollowDistance());
         }
     }
 }

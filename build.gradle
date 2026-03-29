@@ -3,15 +3,15 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.95'
+    id 'net.neoforged.moddev' version '2.0.141'
 }
 
-neoForge.version = "21.7.11-beta"
-version = '1.0.5'
+neoForge.version = "26.1.0.8-beta"
+version = '1.1.0'
 group = 'dev.gigaherz.slimemerger'
 base.archivesName = "SlimeMerger-${neoForge.minecraftVersion}"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 java.withSourcesJar()
 
@@ -37,11 +37,6 @@ neoForge {
         thismod {
             sourceSet(sourceSets.main)
         }
-    }
-
-    parchment {
-        minecraftVersion="1.21.5"
-        mappingsVersion="2025.06.01"
     }
 }
 
