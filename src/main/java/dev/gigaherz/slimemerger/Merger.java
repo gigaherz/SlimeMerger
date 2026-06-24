@@ -5,11 +5,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -64,7 +65,7 @@ public class Merger
         private List<Slime> findOtherSlimes()
         {
             return slime.level()
-                    .getEntities(EntityType.SLIME,
+                    .getEntities(EntityTypes.SLIME,
                             slime.getBoundingBox().inflate(slime.getSize() * 1.5, slime.getSize(), slime.getSize() * 1.5),
                             (other) -> isValidTarget(slime, other));
         }
